@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block navbar %}
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="brand" href="/">
+			  HackingPot
+			</a>
+			<ul class="nav">
+			  <li class="active">
+			    <a href="/">Home</a>
+			  </li>
+			  <li><a href="/about">About</a></li>
+			</ul>
+			<div class="pull-right">
+				<iframe src="//www.facebook.com/plugins/like.php?href&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=dark&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:60px; height:21px; padding:10px" allowTransparency="true"></iframe>
+				<iframe allowtransparency="true" frameborder="0" scrolling="no"       src="http://platform.twitter.com/widgets/tweet_button.1334389481.html#_=1334646308010&count=horizontal&id=twitter-widget-0&lang=en&original_referer=http%3A%2F%2Fhackingpot.com%2F&related=gcmartinelli&size=m&text=HackingPot%3A%20find%20cool%20DIY%20projects!&url=http%3A%2F%2Fhackingpot.com%2F"
+				        style="width:100px; height:21px; padding:10px"></iframe>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+	{% block content %}
+	<div class="container">
+	<div class="hero-unit">
+	  <h1>Looking for DIY projects?</h1><br>
+	  <p>HackingPot is a search engine for <b>makers</b> and <b>hackers</b>. Search for cool project recipes using the ingredients you have at hand.</p>
+	  <p>
+		<center>
+	   	<form class="well form-search" action="/search" method="get">
+			<h3>Choose ingredients:</h3><input type="text" name="q" value="" placeholder="ex: LED Capacitor Wire" />
+		<input type="submit" value="Find recipe!" class="btn-large btn-warning" />
+		</form>
+		</center>
+	  </p>
+	</div>
+	
+	</div>
+	{% endblock %}
