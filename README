@@ -1,0 +1,8 @@
+Hello world!
+Hackingpot.com was a project made for the final hexamester (APR/2012) competition from Udacity's CS101 course.
+
+Hackingpot.com is a "reverse search engine" that shows DIY projects based on what components you have available for a build.
+
+This repo contains the initial code for HP, including search engine and crawler.
+
+This code is under Creative Commons BY-NC-SA license. If you use this code, please let me know! :)
