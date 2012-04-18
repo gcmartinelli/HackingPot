@@ -12,7 +12,7 @@ import operator
 def lookup(query):
 	results = []
 	for part in query:
-		part_index = pickle.load(open("part_index.p", "rb"))
+		part_index = pickle.load(open("/home/gcmartinelli/webapps/hackingpot/myproject/searchengine/part_index.p", "rb"))
 		try:
 			for project in part_index[part]:
 				if project not in results:
@@ -22,7 +22,7 @@ def lookup(query):
 	return results
 	
 def ranking(query, queryresults):
-	project_index = pickle.load(open("project_index.p", "rb"))
+	project_index = pickle.load(open("/home/gcmartinelli/webapps/hackingpot/myproject/searchengine/project_index.p", "rb"))
 	ranking = []
 	for project in queryresults:
 		count = 0
@@ -50,7 +50,7 @@ def searchquery(query):
 	return results
 	
 def project_details(projectname):
-	project_index = pickle.load(open("project_index.p", "rb"))
+	project_index = pickle.load(open("/home/gcmartinelli/webapps/hackingpot/myproject/searchengine/project_index.p", "rb"))
 	parts = project_index[projectname][0]
 	image = project_index[projectname][1]
 	url = project_index[projectname][2]

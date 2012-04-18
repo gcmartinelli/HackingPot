@@ -2,6 +2,13 @@
    "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 <head>
+	<!-- Load google font -->
+	<link href='http://fonts.googleapis.com/css?family=Oleo+Script' rel='stylesheet' type='text/css'>
+
+	
+
+	<link rel=StyleSheet href="/static/main.css" type="text/css">
+
 	{% load bootstrap %}
 	{% bootstrap_css %}
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -18,17 +25,28 @@
 	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
 	  })();
 	</script>
+
+<!-- google analytics -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30966401-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- bootstrap overrride css -->
+<link rel=StyleSheet href="/static/main.css" type="text/css">
+
+
 </head>
 
 <body>
-	<div id="fb-root"></div>
-	<script>(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>
 	
 	{% block navbar %}
 		<div class="navbar">
@@ -47,8 +65,7 @@
 					  <input type="text" class="search-query" placeholder="Ingredients" name="q" >
 					</form>
 					<div class="pull-right">
-						<iframe src="//www.facebook.com/plugins/like.php?href&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=dark&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:60px; height:21px; padding:10px" allowTransparency="true"></iframe>
-						<iframe allowtransparency="true" frameborder="0" scrolling="no"       src="http://platform.twitter.com/widgets/tweet_button.1334389481.html#_=1334646308010&count=horizontal&id=twitter-widget-0&lang=en&original_referer=http%3A%2F%2Fhackingpot.com%2F&related=gcmartinelli&size=m&text=HackingPot%3A%20find%20cool%20DIY%20projects!&url=http%3A%2F%2Fhackingpot.com%2F"
+					<iframe src="//www.facebook.com/plugins/like.php?href&amp;send=false&amp;layout=button_count&amp;width=200&amp;show_faces=false&amp;action=like&amp;colorscheme=dark&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:200px; height:21px;" allowTransparency="true"></iframe>						<iframe allowtransparency="true" frameborder="0" scrolling="no"       src="http://platform.twitter.com/widgets/tweet_button.1334389481.html#_=1334646308010&count=horizontal&id=twitter-widget-0&lang=en&original_referer=http%3A%2F%2Fhackingpot.com%2F&related=gcmartinelli&size=m&text=HackingPot%3A%20find%20cool%20DIY%20projects!&url=http%3A%2F%2Fhackingpot.com%2F"
 						        style="width:100px; height:21px; padding:10px"></iframe>
 								
 					</div>
@@ -66,4 +83,5 @@
 	</center>
 	<br>
 </footer>
+
 </html>
