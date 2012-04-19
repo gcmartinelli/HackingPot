@@ -2,3 +2,22 @@
 	font-family: 'Oleo Script', cursive;
 	padding: 10px 20px 12px;
 }
+
+#social {
+    margin: 5px 0px -10px 0px;
+}    
+div .plusone, .twitter, .fb-like, .pinterest {
+    font-size: 1px;
+    display: inline-block;
+}
+div .fb_reset {
+    display: inline;
+}
+div .twitter {
+	margin:5px 0px 0px 40px; 
+	display:inline-block;
+}
+div .pinterest {
+	float:left; 
+	margin-top:5px
+}

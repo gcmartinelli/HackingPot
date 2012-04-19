@@ -10,11 +10,15 @@ import pickle
 import operator
 
 def searchquery(query):
+	query_lower = []
+	#turn search query into lower-case query
+	for q in query:
+		query_lower.append(q.lower())
 	results = []
-	queryresults = lookup(query)
+	queryresults = lookup(query_lower)
 	if queryresults == []:
 		return None
-	rank = ranking(query, queryresults)
+	rank = ranking(query_lower, queryresults)
 	for project in rank:
 		pname = project[0]
 		prank = project[1]*100
@@ -26,11 +30,8 @@ def searchquery(query):
 def lookup(query):
 	results = []
 	for part in query:
-		#make search case insensitive
-		part = part.lower()
-		print part
-		#part_index = pickle.load(open("/home/gcmartinelli/webapps/hackingpot/myproject/searchengine/part_index.p", "rb"))
-		part_index = pickle.load(open("part_index.p", "rb"))
+		#pickle dictionaries for later queries - addresses are different when in production server.
+		part_index = pickle.load(open("../part_index.p", "rb"))
 		try:
 			for project in part_index[part]:
 				if project not in results:
@@ -40,8 +41,8 @@ def lookup(query):
 	return results
 	
 def ranking(query, queryresults):
-#	project_index = pickle.load(open("/home/gcmartinelli/webapps/hackingpot/myproject/searchengine/project_index.p", "rb"))
-	project_index = pickle.load(open("project_index.p", "rb"))
+	#pickle dictionaries for later queries - addresses are different when in production server.
+	project_index = pickle.load(open("../project_index.p", "rb"))
 	ranking = []
 	for project in queryresults:
 		count = 0
@@ -54,8 +55,8 @@ def ranking(query, queryresults):
 	return ranking
 	
 def project_details(projectname):
-#	project_index = pickle.load(open("/home/gcmartinelli/webapps/hackingpot/myproject/searchengine/project_index.p", "rb"))
-	project_index = pickle.load(open("project_index.p", "rb"))
+	#pickle dictionaries for later queries - addresses are different when in production server.
+	project_index = pickle.load(open("../project_index.p", "rb"))
 	parts = project_index[projectname][0]
 	image = project_index[projectname][1]
 	url = project_index[projectname][2]

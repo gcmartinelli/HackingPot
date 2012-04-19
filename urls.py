@@ -4,6 +4,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
+from django.conf import settings
 from crawler.views import *
 from searchengine.views import *
 from mainapp.views import *
@@ -19,8 +20,10 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 #	url(r'^search/', search.views.search),
-#	url(r'^crawl', crawl),
+	url(r'^crawl', crawl),
 	url(r'^$', main),
 	url(r'^search', search),
 	url(r'^about', about),
+	(r'^static/(?P<path>.*)$', 'django.views.static.serve',
+	        {'document_root': settings.STATIC_ROOT}),
 )

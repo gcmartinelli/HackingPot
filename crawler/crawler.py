@@ -12,22 +12,22 @@ import pickle
 from BeautifulSoup import BeautifulSoup
 
 #initial crawl targets
-targets = [#['http://makeprojects.com/c/Arduino', 0],
-	#		['http://makeprojects.com/c/Audio', 0],
-	#		['http://makeprojects.com/c/Circuits', 0],
-	#		['http://makeprojects.com/c/Computers', 0],
-	#		['http://makeprojects.com/c/Hacks_and_Mods',0],
-	#		['http://makeprojects.com/c/Ham_Radio', 0],
-	#		['http://makeprojects.com/c/Microcontrollers', 0],
-	#		['http://makeprojects.com/c/Motors', 0],
-	#		['http://makeprojects.com/c/Musical_Instruments',0],
-	#		['http://makeprojects.com/c/Open_Source_Hardware',0],
-	#		['http://makeprojects.com/c/Open_Source_Software',0],
-	#		['http://makeprojects.com/c/Programming',0],
-	#		['http://makeprojects.com/c/Repurposed_Tech',0],
+targets = [['http://makeprojects.com/c/Arduino', 0],
+			['http://makeprojects.com/c/Audio', 0],
+			['http://makeprojects.com/c/Circuits', 0],
+			['http://makeprojects.com/c/Computers', 0],
+			['http://makeprojects.com/c/Hacks_and_Mods',0],
+			['http://makeprojects.com/c/Ham_Radio', 0],
+			['http://makeprojects.com/c/Microcontrollers', 0],
+			['http://makeprojects.com/c/Motors', 0],
+			['http://makeprojects.com/c/Musical_Instruments',0],
+			['http://makeprojects.com/c/Open_Source_Hardware',0],
+			['http://makeprojects.com/c/Open_Source_Software',0],
+			['http://makeprojects.com/c/Programming',0],
+			['http://makeprojects.com/c/Repurposed_Tech',0],
 			['http://makeprojects.com/c/Soft_Circuits',0],
-	#		['http://makeprojects.com/c/Soldering',0],
-	#		['http://makeprojects.com/c/Wireless',0],
+			['http://makeprojects.com/c/Soldering',0],
+			['http://makeprojects.com/c/Wireless',0],
 			]
 #sources crawler is allowed to search
 sources = ['http://makeprojects.com',
@@ -63,9 +63,9 @@ def crawl_web(seed):
 							corrected_link = sources[0]+link
 							tocrawl.append([corrected_link, depth+1])
 					crawled.append(page)
-	#pickle dictionaries for later queries
-	pickle.dump(part_index, open("part_index.p", "wb"))
-	pickle.dump(project_index, open("project_index.p", "wb"))
+	#pickle dictionaries for later queries - addresses are different when in production server.
+	pickle.dump(part_index, open("../part_index.p", "wb"))
+	pickle.dump(project_index, open("../project_index.p", "wb"))
 	return part_index, project_index
 	
 def get_page(url):

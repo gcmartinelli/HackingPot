@@ -12,15 +12,6 @@
 	<meta name="generator" content="TextMate http://macromates.com/">
 	<meta name="author" content="GCM">
 	<!-- Date: 2012-04-16 -->
-	
-	<!-- Place this render call where appropriate -->
-	<script type="text/javascript">
-	  (function() {
-	    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-	    po.src = 'https://apis.google.com/js/plusone.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	  })();
-	</script>
 
 <!-- google analytics -->
 <script type="text/javascript">
@@ -38,39 +29,69 @@
 </script>
 
 <!-- bootstrap overrride css -->
-<link rel="StyleSheet" href="/static/main.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/static/main.css" >
 
+<!-- Google+ Button JS -->
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+
+<!-- Pinterest Button JS -->
+<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
 
 </head>
 
 <body>
-	
-	{% block navbar %}
-	<div class="navbar">
-		<div class="navbar-inner">
-			<div class="container">
-				<a class="brand" href="/">
-				  HackingPot
-				</a>
-				<ul class="nav">
-				  <li class="active">
-				    <a href="/">Home</a>
-				  </li>
-				  <li>
-						<a href="/about">About</a>
-				</li>
-				</ul>
-				<form class="navbar-search pull-left" action="/search">
-				  <input type="text" class="search-query" placeholder="Ingredients" name="q" >
-				</form>
-				<div class="pull-right">
-					<iframe src="//www.facebook.com/plugins/like.php?href&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=dark&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px; padding:10px" allowTransparency="true"></iframe>
-					<iframe allowtransparency="true" frameborder="0" scrolling="no"       src="http://platform.twitter.com/widgets/tweet_button.1334389481.html#_=1334646308010&count=horizontal&id=twitter-widget-0&lang=en&original_referer=http%3A%2F%2Fhackingpot.com%2F&related=gcmartinelli&size=m&text=HackingPot%3A%20find%20cool%20DIY%20projects!&url=http%3A%2F%2Fhackingpot.com%2F" style="width:100px; height:21px; padding:10px"></iframe>
+<!--            Facebook Javascript SDK        -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<!------------------------------------------------>
+
+{% block navbar %}	
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="brand" href="/">
+			  HackingPot
+			</a>
+			<ul class="nav">
+			  <li class="active">
+			    <a href="/">Home</a>
+			  </li>
+			  <li>
+					<a href="/about">About</a>
+			</li>
+			</ul>
+			<form class="navbar-search pull-left" action="/search">
+			  <input type="text" class="search-query" placeholder="Ingredients" name="q" >
+			</form>
+			<div class="pull-right">
+				<div id="social" style="">
+					<div class="pinterest" style="float:left; margin-top:5px">
+						<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+					</div>
+					<div class="twitter" style="margin:5px 0px 0px 40px; display:inline-block">
+							<a href="https://twitter.com/share" class="twitter-share-button" data-via="gcmartinelli">Tweet</a></p>
+								<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+					</div>
+					
+					<div class="g-plusone" data-size="medium"></div>	
+									
+					<div class="fb-like" data-send="false" data-layout="button_count" data-width="45" data-show-faces="false" data-colorscheme="dark"></div>
+					
+					
 				</div>
 			</div>
+
 		</div>
 	</div>
-	{% endblock %}
+</div>
+{% endblock %}
+
 	{% block content %}{% endblock %}
 </body>
 <footer>

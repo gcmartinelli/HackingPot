@@ -6,13 +6,13 @@
 		<h2>Sorry, I couldn't find any results with {% for entry in query %}<span style="color:orange"> {{ entry }}</span>{% endfor %}.</h2>
 
 	{% else %}
-	<h2>You searched for: {% for entry in query %}<span style="color:orange"> {{ entry }}</span>{% endfor %}</h2>
+	<h2>Ingredients: {% for entry in query %}<span style="color:orange"> {{ entry }}</span>{% endfor %}</h2>
 			{% for result in results %}
 			<div class="row-fluid well">
 				<div class="span12">
 					<div class="row-fluid">
 						<div class="span8">
-							<h3>{{ result.0 }}</h3>
+							<a href="{{result.4}}"><h3>{{ result.0 }}</h3></a>
 							<a href="{{result.4}}"><img src="{{result.3}}"/></a><br>
 							<h5>Percentage of Ingredients:</h5>
 							<div class="progress progress-warning progress-striped
@@ -24,7 +24,7 @@
 						<div class="span4">
 							<h3>Ingredients:</h3>
 							{% for part in result.2 %}
-								{{ part }}<br>
+								<a href="/search?q={% for entry in query %}{{entry}}+{%endfor%}{{part}}">{{ part }}</a><br>
 							{% endfor %}
 						</div>
 					</div>
