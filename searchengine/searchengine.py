@@ -9,32 +9,6 @@ Licensed under Creative Commons BY-NC-SA
 import pickle 
 import operator
 
-def lookup(query):
-	results = []
-	for part in query:
-		part_index = pickle.load(open("/home/gcmartinelli/webapps/hackingpot/myproject/searchengine/part_index.p", "rb"))
-		try:
-			for project in part_index[part]:
-				if project not in results:
-					results.append(project)
-		except KeyError:
-			return results
-	return results
-	
-def ranking(query, queryresults):
-	project_index = pickle.load(open("/home/gcmartinelli/webapps/hackingpot/myproject/searchengine/project_index.p", "rb"))
-	ranking = []
-	for project in queryresults:
-		count = 0
-		for part in project_index[project][0]:
-			for querypart in query:
-				if querypart == part:
-					count += 1.0
-		print count
-		rank = count/len(project_index[project][0])
-		ranking.append([project, rank])
-	return ranking
-	
 def searchquery(query):
 	results = []
 	queryresults = lookup(query)
@@ -49,8 +23,39 @@ def searchquery(query):
 	results.sort(key=operator.itemgetter(1), reverse=True)
 	return results
 	
+def lookup(query):
+	results = []
+	for part in query:
+		#make search case insensitive
+		part = part.lower()
+		print part
+		#part_index = pickle.load(open("/home/gcmartinelli/webapps/hackingpot/myproject/searchengine/part_index.p", "rb"))
+		part_index = pickle.load(open("part_index.p", "rb"))
+		try:
+			for project in part_index[part]:
+				if project not in results:
+					results.append(project)
+		except KeyError:
+			return results
+	return results
+	
+def ranking(query, queryresults):
+#	project_index = pickle.load(open("/home/gcmartinelli/webapps/hackingpot/myproject/searchengine/project_index.p", "rb"))
+	project_index = pickle.load(open("project_index.p", "rb"))
+	ranking = []
+	for project in queryresults:
+		count = 0
+		for part in project_index[project][0]:
+			for querypart in query:
+				if querypart == part:
+					count += 1.0
+		rank = count/len(project_index[project][0])
+		ranking.append([project, rank])
+	return ranking
+	
 def project_details(projectname):
-	project_index = pickle.load(open("/home/gcmartinelli/webapps/hackingpot/myproject/searchengine/project_index.p", "rb"))
+#	project_index = pickle.load(open("/home/gcmartinelli/webapps/hackingpot/myproject/searchengine/project_index.p", "rb"))
+	project_index = pickle.load(open("project_index.p", "rb"))
 	parts = project_index[projectname][0]
 	image = project_index[projectname][1]
 	url = project_index[projectname][2]

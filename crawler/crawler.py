@@ -64,8 +64,8 @@ def crawl_web(seed):
 							tocrawl.append([corrected_link, depth+1])
 					crawled.append(page)
 	#pickle dictionaries for later queries
-	pickle.dump(part_index, open("..part_index.p", "wb"))
-	pickle.dump(project_index, open("..project_index.p", "wb"))
+	pickle.dump(part_index, open("part_index.p", "wb"))
+	pickle.dump(project_index, open("project_index.p", "wb"))
 	return part_index, project_index
 	
 def get_page(url):
@@ -123,7 +123,9 @@ def find_details(content):
 	for column in parts_soup:
 		part_links = column.findAll("a", {"class":"itemName muted"})
 		for part in part_links:
-			parts.append(str(part.text))
+			#make 'part' lower-case so later, in search, it is case insensitive
+			part = str(part.text).lower()
+			parts.append(part)
 	try:
 		project = str(soup.h1.text)
 		image = str(soup.find(id="guideWikiDetails").img['src'])
