@@ -9,6 +9,7 @@ from crawler.views import *
 from searchengine.views import *
 from mainapp.views import *
 
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'hackingpot.views.home', name='home'),
@@ -24,6 +25,9 @@ urlpatterns = patterns('',
 	url(r'^$', main),
 	url(r'^search', search),
 	url(r'^about', about),
-	(r'^static/(?P<path>.*)$', 'django.views.static.serve',
+	url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
 	        {'document_root': settings.STATIC_ROOT}),
 )
+
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+urlpatterns += staticfiles_urlpatterns()

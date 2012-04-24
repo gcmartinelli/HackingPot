@@ -6,19 +6,17 @@ Licensed under Creative Commons BY-NC-SA
 
 """
 
-import pickle 
+from mainapp.models import Project, Part
 import operator
+from django.core.exceptions import ObjectDoesNotExist
 
 def searchquery(query):
-	query_lower = []
-	#turn search query into lower-case query
-	for q in query:
-		query_lower.append(q.lower())
+	print query
 	results = []
-	queryresults = lookup(query_lower)
+	queryresults = lookup(query)
 	if queryresults == []:
 		return None
-	rank = ranking(query_lower, queryresults)
+	rank = ranking(query, queryresults)
 	for project in rank:
 		pname = project[0]
 		prank = project[1]*100
@@ -26,38 +24,37 @@ def searchquery(query):
 		results.append([pname, prank, parts, image, url])
 	results.sort(key=operator.itemgetter(1), reverse=True)
 	return results
-	
+
 def lookup(query):
 	results = []
 	for part in query:
-		#pickle dictionaries for later queries - addresses are different when in production server.
-		part_index = pickle.load(open("../part_index.p", "rb"))
 		try:
-			for project in part_index[part]:
-				if project not in results:
-					results.append(project)
-		except KeyError:
-			return results
+			proj = Project.objects.filter(parts__name__icontains=part)
+			for p in proj:
+				if p.name not in results:
+					results.append(str(p.name))
+		except Project.DoesNotExist:
+			pass
 	return results
-	
+
 def ranking(query, queryresults):
-	#pickle dictionaries for later queries - addresses are different when in production server.
-	project_index = pickle.load(open("../project_index.p", "rb"))
 	ranking = []
 	for project in queryresults:
 		count = 0
-		for part in project_index[project][0]:
+		proj = Project.objects.get(name=project)
+		parts = proj.parts.all()
+		for part in parts:
 			for querypart in query:
-				if querypart == part:
+				#if querypart == part:
+				if str(part).find(querypart) != -1:
 					count += 1.0
-		rank = count/len(project_index[project][0])
+		rank = count/len(parts)
 		ranking.append([project, rank])
 	return ranking
 	
 def project_details(projectname):
-	#pickle dictionaries for later queries - addresses are different when in production server.
-	project_index = pickle.load(open("../project_index.p", "rb"))
-	parts = project_index[projectname][0]
-	image = project_index[projectname][1]
-	url = project_index[projectname][2]
+	proj = Project.objects.get(name=projectname)
+	parts = proj.parts.all()
+	image = proj.image
+	url = proj.url
 	return parts, image, url

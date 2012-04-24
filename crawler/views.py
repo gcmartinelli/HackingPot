@@ -9,6 +9,6 @@ from crawler import *
 from django.http import HttpResponse
 
 def crawl(request):
-	part_index, project_index = crawl_web(targets)
-	response = "%s projects crawled." % len(project_index)
+	part_count, proj_count = crawl_web(targets)
+	response = "%s projects and %s parts crawled." % (proj_count, part_count)
 	return HttpResponse(response)

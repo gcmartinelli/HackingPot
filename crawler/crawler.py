@@ -5,29 +5,30 @@ Developed by Gian Carlo d'Orleans-Brissac Cecilio Martinelli on 2012-04-14.
 Licensed under Creative Commons BY-NC-SA
 
 """
-
+from django.core.exceptions import ObjectDoesNotExist
 import urllib2
 import time
 import pickle
 from BeautifulSoup import BeautifulSoup
+from mainapp.models import Project, Part
 
 #initial crawl targets
-targets = [['http://makeprojects.com/c/Arduino', 0],
+targets = [#['http://makeprojects.com/c/Arduino', 0],
 			['http://makeprojects.com/c/Audio', 0],
-			['http://makeprojects.com/c/Circuits', 0],
-			['http://makeprojects.com/c/Computers', 0],
-			['http://makeprojects.com/c/Hacks_and_Mods',0],
-			['http://makeprojects.com/c/Ham_Radio', 0],
-			['http://makeprojects.com/c/Microcontrollers', 0],
-			['http://makeprojects.com/c/Motors', 0],
-			['http://makeprojects.com/c/Musical_Instruments',0],
-			['http://makeprojects.com/c/Open_Source_Hardware',0],
-			['http://makeprojects.com/c/Open_Source_Software',0],
-			['http://makeprojects.com/c/Programming',0],
-			['http://makeprojects.com/c/Repurposed_Tech',0],
-			['http://makeprojects.com/c/Soft_Circuits',0],
-			['http://makeprojects.com/c/Soldering',0],
-			['http://makeprojects.com/c/Wireless',0],
+			#['http://makeprojects.com/c/Circuits', 0],
+			#['http://makeprojects.com/c/Computers', 0],
+			#['http://makeprojects.com/c/Hacks_and_Mods',0],
+			#['http://makeprojects.com/c/Ham_Radio', 0],
+			#['http://makeprojects.com/c/Microcontrollers', 0],
+			#['http://makeprojects.com/c/Motors', 0],
+			#['http://makeprojects.com/c/Musical_Instruments',0],
+			#['http://makeprojects.com/c/Open_Source_Hardware',0],
+			#['http://makeprojects.com/c/Open_Source_Software',0],
+			#['http://makeprojects.com/c/Programming',0],
+			#['http://makeprojects.com/c/Repurposed_Tech',0],
+			#['http://makeprojects.com/c/Soft_Circuits',0],
+			#['http://makeprojects.com/c/Soldering',0],
+			#['http://makeprojects.com/c/Wireless',0],
 			]
 #sources crawler is allowed to search
 sources = ['http://makeprojects.com',
@@ -37,9 +38,11 @@ sources = ['http://makeprojects.com',
 #crawler depth search limit
 depth_limit = 1
 
+crawled = []
+
 def crawl_web(seed):
 	tocrawl = seed
-	crawled = []
+	crawled = pickle.load(open("../hackingpot/crawled.p", "rb"))
 	part_index = {}
 	project_index = {}
 	while tocrawl:
@@ -53,8 +56,9 @@ def crawl_web(seed):
 					print 'crawling: ', page
 					depth = page_depth
 					content = get_page(page)
-					add_part_index(part_index, content, page)
-					add_project_index(project_index, content, page)
+					part_count = add_part(content, page)
+					print 'part_count OK ', part_count
+					proj_count = add_project(content, page)
 					outlinks = get_all_links(content)
 					for link in outlinks:
 						if link.find('http://') != -1 or link.find('www') != -1:
@@ -63,10 +67,8 @@ def crawl_web(seed):
 							corrected_link = sources[0]+link
 							tocrawl.append([corrected_link, depth+1])
 					crawled.append(page)
-	#pickle dictionaries for later queries - addresses are different when in production server.
-	pickle.dump(part_index, open("../part_index.p", "wb"))
-	pickle.dump(project_index, open("../project_index.p", "wb"))
-	return part_index, project_index
+		pickle.dump(crawled, open("../hackingpot/crawled.p", "wb"))
+	return Part.objects.count(), Project.objects.count()
 	
 def get_page(url):
 	try: 
@@ -86,37 +88,47 @@ def get_all_links(page):
 			pass
 	return res
 
-def add_part_index(part_index, content, url):
+def add_project(content, url):
 	if url.find('/Project/') != -1:
-		if find_details(content) == None:
+		if find_details(content, url) == None:
 			return None
-		parts, project, image = find_details(content)
+		count = 0
+		if find_details(content, url) == None:
+			return None
+		parts, project, image = find_details(content, url)
+		partlist = []
 		for part in parts:
-			add_to_part_index(part_index, part, project)
-		
-def add_to_part_index(part_index, part, project):
-	if part in part_index:
-		if project not in part_index[part]:
-			part_index[part].append(project)
-	else:
-		part_index[part] = [project]
-
-def add_project_index(project_index, content, url):
+			p = Part.objects.get(name=part)
+			partlist.append(p)
+		try:
+			Project.objects.get(name=project)
+		except Project.DoesNotExist:
+			proj = Project(name=project, url=url, image=image)
+			proj.save()
+			proj.parts = partlist
+			count += 1
+		return count
+	
+def add_part(content, url):
 	if url.find('/Project/') != -1:
-		if find_details(content) == None:
+		if find_details(content,url) == None:
 			return None
-		parts, project, image = find_details(content)
-		add_to_project_index(project_index, project, parts, image, url)
-
-def add_to_project_index(project_index, project, parts, image, url):
-	project_index[project] = [parts, image, url]
-
-#part_index structure:
-#{'Part name': [project1, project2, ...]}
-#project_index structure:
-#{'Project': [[part1, part2, ...], images, url], ...}
-
-def find_details(content):
+		count = 0
+		if find_details(content, url) == None:
+			return None
+		parts, project, image = find_details(content, url)
+		for part in parts:
+			try:
+				Part.objects.get(name=part)
+			except Part.DoesNotExist:
+				p = Part(name=part)
+				p.save()
+				count += 1
+		return count
+	
+def find_details(content, url):
+	if is_allowed_link(url) == False:
+		return None
 	parts = []
 	soup = BeautifulSoup(content)
 	parts_soup = soup.findAll("ul", {"data-itemtype":"part"})
@@ -130,7 +142,6 @@ def find_details(content):
 		project = str(soup.h1.text)
 		image = str(soup.find(id="guideWikiDetails").img['src'])
 	except AttributeError:
-		print 'no image found on'
 		return None
 	return parts, project, image
 

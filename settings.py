@@ -15,7 +15,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'gcmartinelli',                      # Or path to database file if using sqlite3.
         'USER': 'gcmartinelli',                      # Not used with sqlite3.
         'PASSWORD': 'd715eb0c',                  # Not used with sqlite3.
@@ -132,6 +132,7 @@ INSTALLED_APPS = (
 	'myproject.searchengine',
 	'myproject.mainapp',
 	'bootstrapped',
+	'south',
 	)
 
 # A sample logging configuration. The only tangible logging
