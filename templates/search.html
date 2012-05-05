@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
 	{% if results == None %}
-		<h2>Sorry, I couldn't find any results with {% for entry in query %}<span style="color:orange"> {{ entry }}</span>{% endfor %}.</h2>
+		<h2>Sorry, I couldn't find any results with {% for entry in query %}<span style="color:orange"> {{ entry }}</span>{% endfor %}.<br> If you are searching for multiple parts/ingredients, have you tried separating them with a comma (",")?</h2>
 
 	{% else %}
 	<h2>Ingredients: {% for entry in query %}<span style="color:orange"> {{ entry }}</span>{% endfor %}</h2>
@@ -24,7 +24,7 @@
 						<div class="span4">
 							<h3>Ingredients:</h3>
 							{% for part in result.2 %}
-								<a href="/search?q={% for entry in query %}{{entry}}+{%endfor%}{{part}}">{{ part }}</a><br>
+								<a href="/search?q={% for entry in query %}{{entry}}%2C+{%endfor%}{{part}}">{{ part }}</a><br>
 							{% endfor %}
 						</div>
 					</div>

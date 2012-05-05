@@ -11,8 +11,8 @@ import operator
 from django.core.exceptions import ObjectDoesNotExist
 
 def searchquery(query):
-	print query
 	results = []
+	print 'searchquery: ', query
 	queryresults = lookup(query)
 	if queryresults == []:
 		return None
@@ -50,6 +50,7 @@ def ranking(query, queryresults):
 					count += 1.0
 		rank = count/len(parts)
 		ranking.append([project, rank])
+	print ranking
 	return ranking
 	
 def project_details(projectname):
