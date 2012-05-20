@@ -1,8 +1,52 @@
 {% extends "base.html" %}
 
+{% block navbar %}
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="brand" href="/">
+			  HackingPot
+			</a>
+			<ul class="nav">
+			  <li class="active">
+			    <a href="/">Home</a>
+			  </li>
+			  <li>
+					<a href="/about">About</a>
+			</li>
+			</ul>
+			<form class="navbar-search pull-left" action="/search">
+			  <input type="text" class="search-query" value="{% if query != " " %}{% for entry in query %}{{entry}},{%endfor%}{% endif %}" name="q" >
+			</form>
+			<div class="pull-right">
+				<div id="social" style="">
+					<div class="pinterest" style="float:left; margin-top:5px">
+						<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+					</div>
+					<div class="twitter" style="margin:5px 0px 0px 40px; display:inline-block">
+							<a href="https://twitter.com/share" class="twitter-share-button" data-via="gcmartinelli">Tweet</a></p>
+								<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+					</div>
+					
+					<div class="g-plusone" data-size="medium"></div>	
+									
+					<div class="fb-like" data-send="false" data-layout="button_count" data-width="45" data-show-faces="false" data-colorscheme="dark"></div>
+					
+					
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+{% endblock %}
+
 {% block content %}
 <div class="container">
 	{% if results == None %}
+		<h2>Sorry, you need to search for an ingredient.</h2>
+
+	{% elif results == None and query != "" %}
 		<h2>Sorry, I couldn't find any results with {% for entry in query %}<span style="color:orange"> {{ entry }}</span>{% endfor %}.<br> If you are searching for multiple parts/ingredients, have you tried separating them with a comma (",")?</h2>
 
 	{% else %}
