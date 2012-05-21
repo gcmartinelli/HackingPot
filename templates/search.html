@@ -43,13 +43,13 @@
 
 {% block content %}
 <div class="container">
-	{% if results == None %}
+	{% if results == None and query == None %}
 		<h2>Sorry, you need to search for an ingredient.</h2>
-
-	{% elif results == None and query != "" %}
+	{% endif %}
+	{% if results == None and query != None %}
 		<h2>Sorry, I couldn't find any results with {% for entry in query %}<span style="color:orange"> {{ entry }}</span>{% endfor %}.<br> If you are searching for multiple parts/ingredients, have you tried separating them with a comma (",")?</h2>
-
-	{% else %}
+	{% endif %}
+	{% if results != None %}
 	<h2>Ingredients: {% for entry in query %}<span style="color:orange"> {{ entry }}</span>{% endfor %}</h2>
 			{% for result in results %}
 			<div class="row-fluid well">
@@ -75,6 +75,6 @@
 				</div>
 			</div>
 			{% endfor %}
-	{% endif %}
+		{% endif %}
 </div>
 {% endblock %}
